@@ -27,7 +27,7 @@ additional python packages:
 All of the additional required packages are part of the python package index
 and can be installed from http://www.pypi.python.org.
 
-# using the decomposer and basic analyzer
+# using the decomposer and nesting tree analyzer
 
 The package is split into two python scripts that handle hierarchical decompositon
 and analysis of the nesting tree.
@@ -38,7 +38,7 @@ We want to construct the hierarchical decomposition tree for the leaf network
 test_graphs/Dalbergia_miscolobium.gpickle.
 We run
 
-> python decomposer.py -w test_graphs/Dalbergia_miscolobium.gpickle -s out/Dalbergia_miscolobium.pkl.bz2
+    > python decomposer.py -w test_graphs/Dalbergia_miscolobium.gpickle -s out/Dalbergia_miscolobium.pkl.bz2
 
 This constructs the nesting tree and saves the result in the file out/Dalbergia_miscolobium.pkl.bz2
 (Make sure that the folder exists!). The additional -w flag tells the decomposer to apply a workaround
@@ -48,21 +48,28 @@ damaged.
 The software has additional command line flags that control its behavior and provide some
 plotting of results. They are explained by running
 
-> python decomposer.py --help
+    > python decomposer.py --help
 
 Next, we want to analyze the nesting tree, calculate the nesting number and more.
 We run
 
-> python analyzer.py out/Dalbergia_miscolobium.pkl.bz2 -s analyzed/Dalbergia_miscolobium_analyzed.pkl.bz2
+    > python analyzer.py out/Dalbergia_miscolobium.pkl.bz2 -s analyzed/Dalbergia_miscolobium_analyzed.pkl.bz2
 
 This performs the analysis, prints out some of the leaf traits, and saves
 the results to analyzed/Dalbergia_miscolobium_analyzed.pkl.bz2 (Again, make sure that
-the folder exists!)
+the folder exists!).
+The set of partition asymmetries (1 - q_j as defined in the paper) 
+and corresponding subtree degrees for each subtree of the
+nesting tree is stored in
 
-In order to do further analysis, there is a graphical interface to inspect the output
+    analyzed/Dalbergia_miscolobium_analyzed.pkl.bz2_data/degrees_asymmetries.txt
+
+for analysis with other tools.
+
+In order to do further geometric analysis, there is a graphical interface to inspect the output
 of the analyzer. It is run by 
 
-> python tree_edit.py analyzed/Dalbergia_miscolobium_analyzed.pkl.bz2
+    > python tree_edit.py analyzed/Dalbergia_miscolobium_analyzed.pkl.bz2
 
 It allows to visually inspect the leaf network, the associated nesting tree,
 visualize which parts of the nesting tree belong to which loops in the network,
@@ -71,11 +78,11 @@ The interface is designed to be largely self-explanatory.
 
 Upon calculating leaf network traits, new folders are created, e.g.
 
-analyzed/Dalbergia_miscolobium_analyzed.pkl.bz2_stats
-analyzed/Dalbergia_miscolobium_analyzed.pkl.bz2_data
+    analyzed/Dalbergia_miscolobium_analyzed.pkl.bz2_stats
+    analyzed/Dalbergia_miscolobium_analyzed.pkl.bz2_data
 
 These folders contain the results as text files that can be processed further.
 tree_edit.py can be used in batch mode without the graphical interface to
 extract data from many leaf networks. This is explained by running
 
-> python tree_edit.py --help
+    > python tree_edit.py --help
