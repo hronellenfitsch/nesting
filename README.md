@@ -86,3 +86,13 @@ tree_edit.py can be used in batch mode without the graphical interface to
 extract data from many leaf networks. This is explained by running
 
     > python tree_edit.py --help
+
+# further questions
+
+The author of this software is Henrik Ronellenfitsch.
+If you have questions about usage or find bugs, you can contact me
+at
+
+henrik [.] ronellenfitsch (at) gmail [dot] com
+
+Unfortunately I cannot guarantee that I will be able to help but I will do my best.
