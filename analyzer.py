@@ -522,11 +522,11 @@ def thresholded_asymmetry(tree, thr):
             if d['subtree-degree'] > 1])
 
     degs = asyms[:,0]
-    asyms = asyms[:,1]
+    asyms_only = asyms[:,1]
 
-    filtered = asyms[degs <= thr]
+    filtered = asyms_only[degs <= thr]
 
-    return filtered.mean()
+    return filtered.mean(), average(filtered, weights=degs[degs <= thr]), asyms
 
 def analyze_tree(tree):
     # calculate metrics
@@ -631,7 +631,11 @@ if __name__ == '__main__':
     # print info
     print "Whole tree unweighted nesting number:", 1-tree_asymmetry
     print "Whole tree unweighted nesting number without external nodes:", 1-tree_asymmetry_no_ext
-    print "Thresholded (d=256) unweighted nesting number:", 1-thresholded_asymmetry(marked_tree, 256)
+
+    thresh_uw, thresh_wt, asyms_all = thresholded_asymmetry(marked_tree, 256)
+
+    print "Thresholded (d=256) unweighted nesting number:", 1 - thresh_uw
+    print "Thresholded (d=256) weighted nesting number:", 1 - thresh_wt
 
     # Save data
     if args.save != "":
@@ -648,6 +652,11 @@ if __name__ == '__main__':
         
         print "Saving analysis data."
         storage.save(sav, args.save)
+        
+        datadir = args.save + '_data'
+        if not os.path.exists(datadir):
+            os.makedirs(datadir)
+        savetxt(args.save + '_data/degrees_asymmetries.txt', asyms_all)
         print "Done."
     
     if args.plot or args.save_plots != "":
