@@ -46,8 +46,6 @@ import scipy.sparse.linalg
 import cvxopt as cvx
 from cvxopt.modeling import variable, op
 
-import seaborn as sns
-
 from decomposer import Cycle, Filtration
 from tree_encode import canonize_tree, encode_tree, \
         random_binary_tree_bottomup, uniform_random_tree_sample
@@ -2044,7 +2042,6 @@ def load_selection(fname):
 
 if __name__ == '__main__':
     # Nice plots
-    sns.set(style='white', font_scale=1.5)
 
     # Argument parser
     parser = argparse.ArgumentParser("tree_edit.py")

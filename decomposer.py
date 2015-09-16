@@ -58,8 +58,6 @@ import sys
 import storage
 import plot
 
-import seaborn as sns
-
 from blist import sortedlist
 
 from cycle_basis import *
@@ -663,7 +661,6 @@ def remove_intersecting_edges(G):
     G.remove_edges_from(edges_to_rem)
 
 if __name__ == '__main__':
-    sns.set(style='white', font_scale=1.5)
     params = {'mathtext.fontset': 'stixsans'}
     plt.rcParams.update(params)
 
