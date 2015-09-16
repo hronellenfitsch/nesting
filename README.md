@@ -11,7 +11,7 @@ PLOS Computational Biology (under review)
 
 If you use this software in your work, please cite the above publication!
 
-# prerequisites
+## prerequisites
 
 The package requires 
 * python 2.7 (http://www.python.org)
@@ -33,7 +33,7 @@ The package is split into two python scripts that handle hierarchical decomposit
 and analysis of the nesting tree.
 We also provide three test graphs to play around with in the folder /test_graphs/.
 
-* Example
+## Example
 We want to construct the hierarchical decomposition tree for the leaf network
 test_graphs/Dalbergia_miscolobium.gpickle.
 We run
