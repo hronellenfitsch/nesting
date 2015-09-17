@@ -25,7 +25,7 @@ additional python packages:
 * cvxopt
 
 All of the additional required packages are part of the python package index
-and can be installed from http://www.pypi.python.org.
+and can be installed from http://pypi.python.org.
 
 # using the decomposer and nesting tree analyzer
 
