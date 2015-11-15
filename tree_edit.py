@@ -55,6 +55,7 @@ import storage
 import plot
 import analyzer
 from cycle_basis import polygon_area
+from helpers import *
 
 def sparse_laplacian(G, nodelist=None, weight='weight'):
     if nodelist is None:
@@ -1001,7 +1002,7 @@ class TreeEditor(object):
     def main_vein_length(self, G, show_plot=True):
         # Use only largest connected component, assuming it contains
         # the leaf
-        G = G.subgraph(nx.connected_components(G)[0])
+        G = G.subgraph(sorted_connected_components_copy(G)[0])
         
         # Now that this is fixed, onto the actual main veins
         veins = sorted([(d['conductivity'], d['weight'],
@@ -1718,7 +1719,7 @@ class TreeEditor(object):
         """
         # Use only largest connected component, assuming it contains
         # the leaf
-        G = G.subgraph(nx.connected_components(G)[0])
+        G = G.subgraph(sorted_connected_components_copy(G)[0])
                 
         # We must not allow loops. This modified version of
         # MST finds a spanning tree including the largest edges,

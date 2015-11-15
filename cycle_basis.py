@@ -27,6 +27,8 @@ from collections import defaultdict
 
 import time
 
+from helpers import *
+
 class Cycle():
     """ Represents a set of nodes that make up a cycle in some
     graph. Is hashable and does not care about orientation or things
@@ -94,7 +96,7 @@ class Cycle():
         # construct subgraph consisting of only the specified edges
         edge_graph = nx.Graph(edges)
 
-        con = nx.connected_component_subgraphs(edge_graph)
+        con = sorted_connected_components(edge_graph)
         
         # Calculate sorted edge list for each connected component
         # of the cycle

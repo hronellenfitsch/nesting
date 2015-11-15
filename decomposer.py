@@ -61,6 +61,7 @@ import plot
 from blist import sortedlist
 
 from cycle_basis import *
+from helpers import *
 
 class Filtration():
     """ Represents the filtration of a graph in a memory-efficient way
@@ -707,7 +708,7 @@ if __name__ == '__main__':
     else:
         removed_edges = []
     
-    con = nx.connected_component_subgraphs(pruned)
+    con = sorted_connected_components(pruned)
     print "Connected components:", len(con)
 
     if len(con) == 0:

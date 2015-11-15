@@ -20,9 +20,10 @@ additional python packages:
 * numpy
 * scipy
 * matplotlib
-* NetworkX
+* networkx
 * blist
 * cvxopt
+* pydot2
 
 All of the additional required packages are part of the python package index
 and can be installed from http://pypi.python.org.
