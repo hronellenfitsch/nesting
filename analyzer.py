@@ -571,6 +571,8 @@ if __name__ == '__main__':
     parser.add_argument('-D', '--Delta', help="Window size for "
             "average tree asymmetry as a fraction of the "
             "total tree degree", type=float, default=0.1)
+    parser.add_argument('-o', '--nice-tree-positions', action='store_true',
+            help='Calculate nice nesting tree positions (slow!)')
 
     saveload_group = parser.add_mutually_exclusive_group()
     saveload_group.add_argument('-l', '--load', help="Load saved analyzed"
@@ -613,9 +615,13 @@ if __name__ == '__main__':
         horton_strahler, shreve, marked_tree, tree_no_ext, \
             marked_tree_no_ext, tree_asymmetry, tree_asymmetry_no_ext, \
             areas = analyze_tree(tree)
-
-        print "Calculating tree layout positions."
-        tree_pos = nx.graphviz_layout(tree, prog='dot')
+        
+        if args.nice_tree_positions:
+            print "Calculating nice tree layout positions."
+            tree_pos = nx.graphviz_layout(tree, prog='dot')
+        else:
+            print "Calculating standard tree layout positions."
+            tree_pos = nx.spring_layout(tree)
 
     if args.reanalyze:
             horton_strahler, shreve, marked_tree, tree_no_ext, \
