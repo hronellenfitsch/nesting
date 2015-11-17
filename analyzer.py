@@ -621,7 +621,7 @@ if __name__ == '__main__':
             tree_pos = nx.graphviz_layout(tree, prog='dot')
         else:
             print "Calculating standard tree layout positions."
-            tree_pos = nx.spring_layout(tree)
+            tree_pos = nx.spring_layout(tree, iterations=5)
 
     if args.reanalyze:
             horton_strahler, shreve, marked_tree, tree_no_ext, \
