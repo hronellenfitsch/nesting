@@ -669,7 +669,7 @@ if __name__ == '__main__':
         print "Plotting/saving plots."
         fname = ""
         fname_no_ext = ""
-        fext = ""
+        fext = ".png"
         if args.save_plots != "":
             fname, fext = os.path.splitext(args.save_plots)
             fname_no_ext = fname + "_no_ext"

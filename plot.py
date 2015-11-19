@@ -17,7 +17,7 @@ def save_plot(name=""):
     def wrap(f):
         def wrapped(*args, **kwargs):
             fname = ""
-            fext = ""
+            fext = ".png"
             dpi=200
             if 'fname' in kwargs.keys():
                 fname = kwargs['fname']
