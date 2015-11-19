@@ -587,13 +587,13 @@ def apply_workaround(G):
                 dp_c = zip(dp_l[c], edges) + [(dp_l[i], (n, nei[i]))]
                 max_v, max_e = max(dp_c)
                 
-                if not max_e in removed_edges:
-                    print "Found collinear edges:"
-                    print dp_c
-                    print "Removing offending edge {}.".format(max_e)
-                    G.remove_edge(*max_e)
+                print "Found collinear edges:"
+                print dp_c
 
-                    removed_edges.append(max_e)
+                removed_edges.append(max_e)
+
+    print "Removing offending edges."
+    G.remove_edges_from(removed_edges)
 
     return removed_edges
 
