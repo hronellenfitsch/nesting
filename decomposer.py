@@ -693,7 +693,15 @@ if __name__ == '__main__':
     print "Loading file {}.".format(args.INPUT)
     leaf = nx.read_gpickle(args.INPUT)
     
-    #leaf = test_loop()
+    print "Removing disconnected parts"
+    con = sorted_connected_components(leaf)
+    if len(con) == 0:
+        print "This graph is empty!!"
+        print "Have a nice day."
+        sys.exit(0)
+
+    leaf = con[0]
+
     print "Removing intersecting edges."
     remove_intersecting_edges(leaf)
 
