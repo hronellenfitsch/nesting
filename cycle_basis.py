@@ -52,7 +52,7 @@ class Cycle():
             graph: The underlying graph object
 
             edges: The edge list making up the cycle.
-            
+
             is_ordered: If set to false, will use the neighborhood
                 information from graph to construct ordered edge set
                 from unordered one.
@@ -60,21 +60,21 @@ class Cycle():
                 e.g. when removing one cycle splits the surrounding
                 one in half, the smaller connected component in terms
                 of total length is thrown away. Since our cycles are
-                typically convex, this means we use the outermost 
+                typically convex, this means we use the outermost
                 component.
         """
         self.graph = graph
 
         edges, self.total_area = self.ordered_edges(edges)
-        
+
         self.path = zip(*edges)[0]
-        if coords == None:
+        if coords is None:
             self.coords = array([[graph.node[n]['x'], graph.node[n]['y']]
                     for n in self.path])
         else:
             self.coords = coords
         self.edges = edges
-        
+
         # This allows comparisons
         self.edgeset = set([tuple(sorted(e)) for e in edges])
         self.com = mean(self.coords, axis=0)
@@ -97,7 +97,7 @@ class Cycle():
         edge_graph = nx.Graph(edges)
 
         con = sorted_connected_components(edge_graph)
-        
+
         # Calculate sorted edge list for each connected component
         # of the cycle
         component_sorted_edges = []
@@ -119,11 +119,11 @@ class Cycle():
 
                 prev = cur
                 cur = nextn
-            
+
             # coordinates of path
             coords = array([(G.node[u]['x'], G.node[u]['y'])
                     for u, v in sorted_edges] \
-                            + [(G.node[sorted_edges[0][0]]['x'], 
+                            + [(G.node[sorted_edges[0][0]]['x'],
                                 G.node[sorted_edges[0][0]]['y'])])
 
             areas.append(polygon_area(coords))
@@ -134,7 +134,7 @@ class Cycle():
             total_area = areas[0] - sum(areas[1:])
         else:
             total_area = areas[0]
-        
+
         return list(chain.from_iterable(
             sorted(component_sorted_edges, key=len, reverse=True))), \
                     total_area
@@ -178,7 +178,7 @@ class Cycle():
     def radii(self):
         """ Return the radii of all edges in this cycle.
         """
-        return array([self.graph[u][v]['conductivity'] 
+        return array([self.graph[u][v]['conductivity']
             for u, v in self.edgeset])
 
     def __hash__(self):
@@ -207,9 +207,9 @@ def polygon_area(coords):
 
     # Ignore orientation
     return 0.5*abs(sum(Xs[:-1]*Ys[1:] - Xs[1:]*Ys[:-1]))
-   
+
 def traverse_graph(G, start, nextn):
-    """ Traverses the pruned (i.e. ONLY LOOPS) graph G counter-clockwise 
+    """ Traverses the pruned (i.e. ONLY LOOPS) graph G counter-clockwise
     in the direction of nextn until start is hit again.
     If G has treelike components this will fail and get stuck, there
     is no backtracking.
@@ -225,7 +225,7 @@ def traverse_graph(G, start, nextn):
     nodes_visited_set = set()
     edges_visited = []
     coords = [start_coords]
-    
+
     prev = start
     cur = nextn
 
@@ -234,7 +234,7 @@ def traverse_graph(G, start, nextn):
         # We ignore all neighbors we alreay visited to avoid multiple loops
 
         neighs = [n for n in G.neighbors(cur) if n != prev and n != cur]
-        
+
         edges_visited.append((prev, cur))
         nodes_visited.append(cur)
         coords.append(cur_coords)
@@ -245,18 +245,18 @@ def traverse_graph(G, start, nextn):
             prev_coords = array([G.node[prev]['x'], G.node[prev]['y']])
             neigh_coords = array([[G.node[n]['x'], G.node[n]['y']] \
                 for n in neighs])
-             
+
             ## Construct vectors and normalize
             u = cur_coords - prev_coords
             vs = neigh_coords - cur_coords
-            
+
             # calculate cos and sin between direction vector and neighbors
             u /= sqrt((u*u).sum(-1))
             vs /= sqrt((vs*vs).sum(-1))[...,newaxis]
-            
+
             coss = dot(u, vs.T)
             sins = cross(u, vs)
-            
+
             # this is a function between -2 and +2, where the
             # leftmost path corresponds to -2, rightmost to +2
             # sgn(alpha)(cos(alpha) - 1)
@@ -268,19 +268,19 @@ def traverse_graph(G, start, nextn):
             # No choice to make
             prev = cur
             cur = neighs[0]
-        
+
         # Remove pathological protruding loops
         if prev in nodes_visited_set:
             n_ind = nodes_visited.index(prev)
-            
+
             del nodes_visited[n_ind+1:]
             del coords[n_ind+1:]
             del edges_visited[n_ind:]
-    
+
         nodes_visited_set.add(prev)
 
     edges_visited.append((nodes_visited[-1], nodes_visited[0]))
-     
+
     return nodes_visited, edges_visited, array(coords)
 
 def cycle_mtp_path(cycle):
@@ -316,15 +316,15 @@ def shortest_cycles(G):
     # Betti number counts interior loops, this algorithm finds
     # exterior loop as well!
     n_cycles = G.number_of_edges() - G.number_of_nodes() + 1
-    
+
     # Count outer loop as well
     if n_cycles >= 2:
         n_cycles += 1
 
     print "Number of cycles including boundary: {}.".format(n_cycles)
-    
+
     t0 = time.time()
-    
+
     mst = nx.minimum_spanning_tree(G, weight=None)
 
     for u, v in G.edges_iter():
@@ -335,7 +335,7 @@ def shortest_cycles(G):
 
             path, edges, coords = traverse_graph(G, v, u)
             cycleset.add(Cycle(G, edges, coords=coords))
-        
+
     if len(cycleset) != n_cycles:
         print "WARNING: Found only", len(cycleset), "cycles!!"
 
@@ -356,7 +356,7 @@ def find_neighbor_cycles(G, cycles):
     for i in xrange(n_c):
         for e in cycles[i].edges:
             edges[tuple(sorted(e))].append(i)
-    
+
     # Find all neighboring cycles
     neighbor_cycles = set()
 
@@ -364,5 +364,3 @@ def find_neighbor_cycles(G, cycles):
         neighbor_cycles.add(tuple(sorted(n)))
 
     return neighbor_cycles
-
-
