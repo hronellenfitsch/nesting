@@ -1,3 +1,9 @@
+# ATTN
+The nesting package is currently not being maintained and depends on outdated
+libraries.
+An experimental version of the code that is compatible with modern Python 3 and
+NetworkX >= 2.0 can be found at: http://github.com/hronellenfitsch/hdecomp
+
 # nesting
 
 This is a set of python packages to analyze leaf venation networks
